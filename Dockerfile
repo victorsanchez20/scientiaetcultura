@@ -8,11 +8,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libicu-dev \
     libxml2-dev \
     libonig-dev \
+    libzip-dev \
     zip \
     unzip \
     && docker-php-ext-install gd mysqli zip mbstring intl xml \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
 
 # Copiar código de OJS
 COPY . /var/www/html/

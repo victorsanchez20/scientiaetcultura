@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Copiar código de OJS
 COPY . /var/www/html/
-
 # Crear carpetas necesarias y permisos
 RUN mkdir -p /var/www/html/files /var/www/html/cache /var/www/html/templates_c /var/www/html/public \
     && chown -R www-data:www-data /var/www/html \
@@ -29,6 +28,10 @@ RUN mkdir -p /var/www/html/files /var/www/html/cache /var/www/html/templates_c /
 
 # Activar mod_rewrite
 RUN a2enmod rewrite
+
+# Copiar certificado SSL a un lugar dentro del contenedor
+COPY DigiCertGlobalRootCA.crt.pem /usr/local/share/ca-certificates/
+RUN update-ca-certificates
 
 # Variables de Apache
 ENV APACHE_RUN_USER www-data

@@ -1,17 +1,16 @@
-# Dockerfile para OJS con PHP 7.3.33
 FROM php:7.3.33-apache
 
-# Instalar dependencias necesarias
+# Instalar dependencias del sistema y extensiones PHP
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
-    libjpeg-dev \
+    libjpeg62-turbo-dev \
     libfreetype6-dev \
     libicu-dev \
     libxml2-dev \
     libonig-dev \
     zip \
     unzip \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli zip mbstring intl xml \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -35,6 +34,7 @@ ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
 
-# Redirigir tráfico de puerto dinámico de Render al Apache interno
+# Redirigir tráfico de Render al puerto interno
 CMD sed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf && apache2-foreground
+
 

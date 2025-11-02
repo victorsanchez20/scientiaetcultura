@@ -125,10 +125,10 @@ sitewide_privacy_statement = Off
 [database]
 
 driver = mysql
-host = localhost
-username = root
-password = 
-name = revistas_db
+host = sql10.freesqldatabase.com
+username = sql10805690
+password = tLX4WdaTTi
+name = sql10805690
 
 ; Set the non-standard port and/or socket, if used
 ; port = 3306

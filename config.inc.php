@@ -125,10 +125,10 @@ sitewide_privacy_statement = Off
 [database]
 
 driver = mysqli
-host = sql10.freesqldatabase.com
-username = sql10805690
-password = tLX4WdaTTi
-name = sql10805690
+host = scientia.mysql.database.azure.com
+username = scientiaadmin
+password = rootscientia1_
+name = revistas_db
 
 ; Set the non-standard port and/or socket, if used
 ; port = 3306

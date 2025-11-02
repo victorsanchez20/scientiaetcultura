@@ -9,8 +9,10 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
+    libicu-dev \
+    libxml2-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd mysqli zip
+    && docker-php-ext-install gd mysqli zip mbstring intl xml
 
 # Copia los archivos del proyecto a la carpeta del servidor web
 COPY . /var/www/html/

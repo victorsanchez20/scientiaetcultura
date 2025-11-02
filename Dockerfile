@@ -23,6 +23,12 @@ RUN apt-get update && apt-get install -y \
 # Copia todo el código de OJS al contenedor
 COPY . /var/www/html/
 
+# Crear carpetas críticas si no existen
+RUN mkdir -p /var/www/html/files \
+    /var/www/html/cache \
+    /var/www/html/templates_c \
+    /var/www/html/public
+
 # Ajusta permisos de las carpetas críticas
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/files \

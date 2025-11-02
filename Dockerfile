@@ -1,7 +1,7 @@
 # Base PHP + Apache
 FROM php:7.4-apache
 
-# Evitar warning de ServerName
+# Evita el warning de ServerName
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
 # Instala dependencias necesarias para OJS
@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libonig-dev \
     git \
+    socat \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli zip mbstring intl xml \
     && apt-get clean
@@ -36,8 +37,10 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/templates_c \
     && chmod -R 777 /var/www/html/public
 
-# Expone puerto de Apache
+# Expone el puerto que Apache escuchará internamente
 EXPOSE 80
 
-# Arranca Apache en primer plano
-CMD ["apache2-foreground"]
+# Redirige el puerto dinámico de Render al puerto 80 de Apache
+CMD socat TCP-LISTEN:$PORT,fork TCP:localhost:80 & \
+    apache2-foreground
+

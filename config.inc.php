@@ -130,7 +130,7 @@ username = scientiaadmin
 password = rootscientia1_
 name = revistas_db
 ssl = on
-ssl_ca = /usr/local/share/ca-certificates/DigiCertGlobalRootCA.crt.pem
+ssl_ca = /usr/local/share/ca-certificates/DigiCertGlobalRootG2.crt.pem
 
 ; Set the non-standard port and/or socket, if used
 ; port = 3306

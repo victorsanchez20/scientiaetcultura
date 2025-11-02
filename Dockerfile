@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libonig-dev \
     zip \
     unzip \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd mysqli zip mbstring intl xml \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
@@ -36,5 +35,4 @@ ENV APACHE_LOG_DIR /var/log/apache2
 
 # Redirigir tráfico de Render al puerto interno
 CMD sed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf && apache2-foreground
-
 

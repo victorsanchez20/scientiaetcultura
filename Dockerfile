@@ -1,10 +1,9 @@
-# Base PHP + Apache
+# Dockerfile para OJS en Render
+
+# 1️⃣ Imagen base PHP con Apache
 FROM php:7.4-apache
 
-# Evita el warning de ServerName
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-
-# Instala dependencias necesarias para OJS
+# 2️⃣ Instalar extensiones necesarias para OJS
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
@@ -15,32 +14,31 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libxml2-dev \
     libonig-dev \
-    git \
-    socat \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd mysqli zip mbstring intl xml \
-    && apt-get clean
+    && docker-php-ext-install gd mysqli zip mbstring intl xml
 
-# Copia todo el código de OJS al contenedor
+# 3️⃣ Copiar todo el código de OJS al contenedor
 COPY . /var/www/html/
 
-# Crear carpetas críticas si no existen
+# 4️⃣ Crear carpetas necesarias y establecer permisos
 RUN mkdir -p /var/www/html/files \
     /var/www/html/cache \
     /var/www/html/templates_c \
-    /var/www/html/public
-
-# Ajusta permisos de las carpetas críticas
-RUN chown -R www-data:www-data /var/www/html \
+    /var/www/html/public \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 777 /var/www/html/files \
     && chmod -R 777 /var/www/html/cache \
     && chmod -R 777 /var/www/html/templates_c \
     && chmod -R 777 /var/www/html/public
 
-# Expone el puerto que Apache escuchará internamente
-EXPOSE 80
+# 5️⃣ Activar mod_rewrite de Apache
+RUN a2enmod rewrite
 
-# Redirige el puerto dinámico de Render al puerto 80 de Apache
-CMD socat TCP-LISTEN:$PORT,fork TCP:localhost:80 & \
-    apache2-foreground
+# 6️⃣ Configurar Apache para usar variable de Render PORT
+ENV APACHE_RUN_USER www-data
+ENV APACHE_RUN_GROUP www-data
+ENV APACHE_LOG_DIR /var/log/apache2
+
+# Redirigir tráfico de puerto dinámico de Render al Apache interno
+CMD sed -i "s/Listen 80/Listen $PORT/" /etc/apache2/ports.conf && apache2-foreground
 

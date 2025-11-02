@@ -30,7 +30,7 @@ RUN mkdir -p /var/www/html/files /var/www/html/cache /var/www/html/templates_c /
 RUN a2enmod rewrite
 
 # Copiar certificado SSL a un lugar dentro del contenedor
-COPY DigiCertGlobalRootCA.crt.pem /usr/local/share/ca-certificates/
+COPY DigiCertGlobalRootG2.crt.pem /usr/local/share/ca-certificates/
 RUN update-ca-certificates
 
 # Variables de Apache

@@ -124,7 +124,7 @@ sitewide_privacy_statement = Off
 
 [database]
 
-driver = mysql
+driver = mysqli
 host = sql10.freesqldatabase.com
 username = sql10805690
 password = tLX4WdaTTi

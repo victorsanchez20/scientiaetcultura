@@ -1,7 +1,7 @@
 # Dockerfile para OJS en Render
 
 # 1️⃣ Imagen base PHP con Apache
-FROM php:7.4-apache
+FROM php:7.3.33-apache
 
 # 2️⃣ Instalar extensiones necesarias para OJS
 RUN apt-get update && apt-get install -y \
